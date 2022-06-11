@@ -41,15 +41,15 @@ public class PlayerSense : MonoBehaviour
     }
 
     void OnDrawGizmos() {
-        if (!Application.isPlaying) {
-            return;
-        }
+        // if (rayDistance != null && rayDistance.Length > 0) {
+        //     return;
+        // }
 
-        for (int i = 0; i < nRays; i++) {
-            Vector2 v = rayDistance[i] * transform.up;
-            v = v.Rotate(i * 360 / nRays);
-            Gizmos.color = rayHit[i] ? Color.red : Color.green;
-            Gizmos.DrawLine(transform.position, transform.position + (Vector3)v);
-        }
+        // for (int i = 0; i < nRays; i++) {
+        //     Vector2 v = rayDistance[i] * transform.up;
+        //     v = v.Rotate(i * 360 / nRays);
+        //     Gizmos.color = rayHit[i] ? Color.red : Color.green;
+        //     Gizmos.DrawLine(transform.position, transform.position + (Vector3)v);
+        // }
     }
 }
