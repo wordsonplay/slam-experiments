@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     {
         Vector2 move = gamepad.leftStick.ReadValue();
 
-        rigidbody.velocity = Vector2.up * speed * move.y;
-        rigidbody.angularVelocity = turnSpeed * move.x; 
+        rigidbody.velocity = transform.up * speed * move.y;
+        rigidbody.angularVelocity = turnSpeed * -move.x; 
     }
 }
