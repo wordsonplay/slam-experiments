@@ -392,7 +392,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945849992}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c0bbcde1a60be941a69808cc6ba2e68, type: 3}
   m_Name: 
@@ -2368,14 +2368,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335363639}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.043619405, w: 0.9990483}
+  m_LocalPosition: {x: 8, y: 5.8, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1098005219}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5}
 --- !u!114 &1926572602 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4475455488402054552, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
@@ -2412,7 +2412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642713, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9659258
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642713, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2424,7 +2424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642713, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.2588191
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642713, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2436,7 +2436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642713, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4475455489218642715, guid: 93b72a3266c3dad41912ba019023274c, type: 3}
       propertyPath: m_Name

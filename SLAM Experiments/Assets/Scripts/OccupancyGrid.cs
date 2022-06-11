@@ -247,6 +247,8 @@ public class OccupancyGrid : MonoBehaviour
     }
 
     public void LineOfSight(Vector2 origin, Vector2 dir, bool hit) {
+        origin = transform.InverseTransformPoint(origin);
+        dir = transform.InverseTransformVector(dir);
         Vector3Int p = LocalToCell(origin);
         Vector3Int last = LocalToCell(origin + dir);
 
