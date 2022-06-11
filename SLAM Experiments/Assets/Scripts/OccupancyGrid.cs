@@ -13,12 +13,10 @@ public class OccupancyGrid : MonoBehaviour
     [SerializeField] private int height;
 
     private Tilemap tilemap;
-    private HashSet<Vector3Int> visible;
     private float[,] occupancy;
 
     void Start()
     {
-        visible = new HashSet<Vector3Int>();
         InitTilemap();
     }
 
@@ -187,14 +185,7 @@ public class OccupancyGrid : MonoBehaviour
 
     }
 
-    public void ClearVisible() {
-        foreach (Vector3Int p in visible) {
-            SetColour(p, Color.grey);
-        }
-        visible.Clear();
-    }
-
-    public void LineOfSight(Vector2 origin, Vector2 dir) {
+    public void LineOfSight(Vector2 origin, Vector2 dir, bool hit) {
         Vector3Int p = LocalToCell(origin);
         Vector3Int last = LocalToCell(origin + dir);
 
@@ -205,13 +196,8 @@ public class OccupancyGrid : MonoBehaviour
             AddOccupancy(p, -0.01f);
             p = NextLineOfSight(origin, dir, p);
         }
-        AddOccupancy(last, 0.01f);
+        AddOccupancy(last, hit ? 0.01f : -0.01f);
     }
 
-    public void DrawVisible() {
-        foreach (Vector3Int p in visible) {
-            SetColour(p, Color.white);
-        }
-    }
 
 }

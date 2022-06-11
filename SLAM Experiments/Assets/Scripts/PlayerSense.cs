@@ -36,7 +36,7 @@ public class PlayerSense : MonoBehaviour
                 rayDistance[i] = maxDistance;            
             }
 
-            occGrid.LineOfSight(transform.position, dir * rayDistance[i]);
+            occGrid.LineOfSight(transform.position, dir * rayDistance[i], rayHit[i]);
         }        
     }
 
