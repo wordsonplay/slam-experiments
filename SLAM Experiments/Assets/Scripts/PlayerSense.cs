@@ -8,6 +8,7 @@ public class PlayerSense : MonoBehaviour
     [SerializeField] private int nRays = 12;
     [SerializeField] private float maxDistance = 10;
     [SerializeField] private LayerMask mapLayer;
+    [SerializeField] private OccupancyGrid occGrid;
 
     private float[] rayDistance;
     private bool[] rayHit;
@@ -21,6 +22,7 @@ public class PlayerSense : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        occGrid.ClearVisible();
         for (int i = 0; i < nRays; i++) {
             Vector2 dir = transform.up;
             dir = dir.Rotate(i * 360 / nRays);
@@ -34,14 +36,16 @@ public class PlayerSense : MonoBehaviour
                 rayHit[i] = false;
                 rayDistance[i] = maxDistance;            
             }
+
+            occGrid.LineOfSight(transform.position, dir * rayDistance[i]);
         }        
+        occGrid.DrawVisible();
     }
 
     void OnDrawGizmos() {
         if (!Application.isPlaying) {
             return;
         }
-
 
         for (int i = 0; i < nRays; i++) {
             Vector2 v = rayDistance[i] * transform.up;
