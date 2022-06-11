@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0bbcde1a60be941a69808cc6ba2e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nRays: 1
+  nRays: 60
   maxDistance: 10
   mapLayer:
     serializedVersion: 2

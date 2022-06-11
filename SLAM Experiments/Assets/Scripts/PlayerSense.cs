@@ -22,7 +22,6 @@ public class PlayerSense : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        occGrid.ClearVisible();
         for (int i = 0; i < nRays; i++) {
             Vector2 dir = transform.up;
             dir = dir.Rotate(i * 360 / nRays);
@@ -39,7 +38,6 @@ public class PlayerSense : MonoBehaviour
 
             occGrid.LineOfSight(transform.position, dir * rayDistance[i]);
         }        
-        occGrid.DrawVisible();
     }
 
     void OnDrawGizmos() {

@@ -14,6 +14,7 @@ public class OccupancyGrid : MonoBehaviour
 
     private Tilemap tilemap;
     private HashSet<Vector3Int> visible;
+    private float[,] occupancy;
 
     void Start()
     {
@@ -47,6 +48,7 @@ public class OccupancyGrid : MonoBehaviour
     private void InitTilemap() {
         tilemap = GetComponent<Tilemap>();
         Vector3Int p = Vector3Int.zero;
+        occupancy = new float[width,height];
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -79,7 +81,17 @@ public class OccupancyGrid : MonoBehaviour
     }
 
     private void SetOccupancy(Vector3Int pos, float logOdds) {
+        occupancy[pos.x,pos.y] = logOdds;
         float prob = ToProbability(logOdds);
+
+        // 1 = black, 0 = white
+        Color c = new Color(1-prob,1-prob,1-prob,1);
+        SetColour(pos, c);
+    }
+
+    private void AddOccupancy(Vector3Int pos, float increment) {
+        occupancy[pos.x,pos.y] += increment;
+        float prob = ToProbability(occupancy[pos.x,pos.y]);
 
         // 1 = black, 0 = white
         Color c = new Color(1-prob,1-prob,1-prob,1);
@@ -190,10 +202,10 @@ public class OccupancyGrid : MonoBehaviour
 
         while (p != last && maxIt > 0) {
             maxIt--;
-            visible.Add(p);
+            AddOccupancy(p, -0.01f);
             p = NextLineOfSight(origin, dir, p);
         }
-        visible.Add(last);
+        AddOccupancy(last, 0.01f);
     }
 
     public void DrawVisible() {
