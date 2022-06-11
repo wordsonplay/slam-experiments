@@ -30,17 +30,29 @@ public class OccupancyGrid : MonoBehaviour
         return p;
     }
 
+    private Vector3Int LocalToCell(Vector2 p) {
+        return Swizzle(tilemap.layoutGrid.LocalToCell(p));
+    }
+
+    private Vector2 CellToLocal(Vector3Int p) {
+        return tilemap.layoutGrid.GetCellCenterLocal(Swizzle(p));
+    }
+
+
+    private void SetColour(Vector3Int p, Color c) {
+        tilemap.SetColor(Swizzle(p), c);
+    }
+
     private void InitTilemap() {
         tilemap = GetComponent<Tilemap>();
         Vector3Int p = Vector3Int.zero;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                tilemap.SetTile(Swizzle(p), tile);
-                tilemap.SetTileFlags(Swizzle(p), TileFlags.None);
-
                 p.x = x;
                 p.y = y;
+                tilemap.SetTile(Swizzle(p), tile);
+                tilemap.SetTileFlags(Swizzle(p), TileFlags.None);
                 SetOccupancy(p,0);                
             }
         }           
@@ -66,12 +78,11 @@ public class OccupancyGrid : MonoBehaviour
     }
 
     private void SetOccupancy(Vector3Int pos, float logOdds) {
-        pos = Swizzle(pos);
         float prob = ToProbability(logOdds);
 
         // 1 = black, 0 = white
         Color c = new Color(1-prob,1-prob,1-prob,1);
-        tilemap.SetColor(pos, c);
+        SetColour(pos, c);
     }
 
     //       __
@@ -119,8 +130,7 @@ public class OccupancyGrid : MonoBehaviour
         Vector2 corner = r * Vector3.up;
         float angle = 30 + i * 60;
         corner = corner.Rotate(angle);
-        corner.x += p.x;
-        corner.y += p.y;
+        corner += CellToLocal(p);
 
         return corner;
     }
@@ -129,8 +139,14 @@ public class OccupancyGrid : MonoBehaviour
         int i = 0;
         Vector2 corner = Corner(p, i);
         Vector2 vOC = corner - origin;
+        Debug.Log("Centre = " + CellToLocal(p));
+        Debug.Log("Corner = " + corner);
+        Debug.Log("Dir = " + dir);
+        Debug.Log("vOC = " + vOC);
+
 
         if (vOC.IsOnLeft(dir)) {
+            Debug.Log("on left");
             // circle right until you find a corner on the right of the ray
             while (vOC.IsOnLeft(dir)) {
                 i--;
@@ -138,9 +154,10 @@ public class OccupancyGrid : MonoBehaviour
                 vOC = corner - origin;
             } 
 
-            return Neighbour(p, i+1);
+            return Neighbour(p, i);
         }
         else {
+            Debug.Log("on right");
             // circle left until you find a corner on the left of the ray
             while (!vOC.IsOnLeft(dir)) {
                 i++;
@@ -155,26 +172,37 @@ public class OccupancyGrid : MonoBehaviour
 
     public void ClearVisible() {
         foreach (Vector3Int p in visible) {
-            tilemap.SetColor(Swizzle(p), Color.grey);
+            SetColour(p, Color.grey);
         }
         visible.Clear();
     }
 
     public void LineOfSight(Vector2 origin, Vector2 dir) {
-        Vector3Int p = Swizzle(tilemap.layoutGrid.LocalToCell(origin));
-        Vector3Int last = Swizzle(tilemap.layoutGrid.LocalToCell(origin + dir));
+        Vector3Int p = LocalToCell(origin);
+        Vector3Int last = LocalToCell(origin + dir);
 
-        while (p != last) {
+        Debug.Log(string.Format("origin: {0}", origin));
+        Debug.Log(string.Format("dir: {0}", dir));
+
+        Debug.Log(string.Format("From: {0}", p));
+        Debug.Log(string.Format("To: {0}", last));
+
+        int maxIt = 20;
+
+        while (p != last && maxIt > 0) {
+            maxIt--;
             visible.Add(p);
             p = NextLineOfSight(origin, dir, p);
+            Debug.Log(string.Format("p = {0}", p));
         }
         visible.Add(last);
     }
 
     public void DrawVisible() {
         foreach (Vector3Int p in visible) {
-            tilemap.SetColor(Swizzle(p), Color.white);
+            SetColour(p, Color.white);
         }
+        Debug.Break();
     }
 
 }
