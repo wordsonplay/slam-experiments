@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -139,31 +140,35 @@ public class OccupancyGrid : MonoBehaviour
         int i = 0;
         Vector2 corner = Corner(p, i);
         Vector2 vOC = corner - origin;
-        Debug.Log("Centre = " + CellToLocal(p));
-        Debug.Log("Corner = " + corner);
-        Debug.Log("Dir = " + dir);
-        Debug.Log("vOC = " + vOC);
 
 
         if (vOC.IsOnLeft(dir)) {
-            Debug.Log("on left");
             // circle right until you find a corner on the right of the ray
-            while (vOC.IsOnLeft(dir)) {
+            int maxIt = 6;
+            while (vOC.IsOnLeft(dir) && maxIt > 0) {
+                maxIt--;
                 i--;
                 corner = Corner(p, i);
                 vOC = corner - origin;
             } 
+            if (maxIt == 0) {
+                throw new InvalidOperationException("all corners are on the left");
+            }
 
-            return Neighbour(p, i);
+            return Neighbour(p, i+1);
         }
         else {
-            Debug.Log("on right");
             // circle left until you find a corner on the left of the ray
-            while (!vOC.IsOnLeft(dir)) {
+            int maxIt = 6;
+            while (!vOC.IsOnLeft(dir) && maxIt > 0) {
+                maxIt--;
                 i++;
                 corner = Corner(p, i);
                 vOC = corner - origin;
             } 
+            if (maxIt == 0) {
+                throw new InvalidOperationException("all corners are on the right");
+            }
 
             return Neighbour(p, i);
         }
@@ -181,19 +186,12 @@ public class OccupancyGrid : MonoBehaviour
         Vector3Int p = LocalToCell(origin);
         Vector3Int last = LocalToCell(origin + dir);
 
-        Debug.Log(string.Format("origin: {0}", origin));
-        Debug.Log(string.Format("dir: {0}", dir));
-
-        Debug.Log(string.Format("From: {0}", p));
-        Debug.Log(string.Format("To: {0}", last));
-
-        int maxIt = 20;
+        int maxIt = 100;
 
         while (p != last && maxIt > 0) {
             maxIt--;
             visible.Add(p);
             p = NextLineOfSight(origin, dir, p);
-            Debug.Log(string.Format("p = {0}", p));
         }
         visible.Add(last);
     }
@@ -202,7 +200,6 @@ public class OccupancyGrid : MonoBehaviour
         foreach (Vector3Int p in visible) {
             SetColour(p, Color.white);
         }
-        Debug.Break();
     }
 
 }
