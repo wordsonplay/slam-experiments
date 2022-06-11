@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float turnSpeed = 60; // deg/s
 
     private Gamepad gamepad;
-    private Rigidbody2D rigidbody;
+    private new Rigidbody2D rigidbody;
 
     void Start()
     {
