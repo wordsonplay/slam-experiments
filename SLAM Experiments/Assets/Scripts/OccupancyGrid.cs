@@ -6,13 +6,18 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Tilemap))]
 public class OccupancyGrid : MonoBehaviour
 {
-    private Tilemap tilemap;
     [SerializeField] private Tile tile;
     [SerializeField] private int width;
     [SerializeField] private int height;
 
+    private Tilemap tilemap;
+ 
     void Start()
     {
+        InitTilemap();
+    }
+
+    private void InitTilemap() {
         tilemap = GetComponent<Tilemap>();
         Vector3Int p = Vector3Int.zero;
 
