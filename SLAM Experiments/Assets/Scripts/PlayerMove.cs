@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     private Gamepad gamepad;
     private new Rigidbody2D rigidbody;
+    private Vector2 move = Vector2.zero;
 
     void Start()
     {
@@ -20,9 +21,11 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 move = gamepad.leftStick.ReadValue();
-
         rigidbody.velocity = transform.up * speed * move.y;
         rigidbody.angularVelocity = turnSpeed * -move.x; 
+    }
+
+    public void OnMove(InputValue value) {
+        move = value.Get<Vector2>();
     }
 }
